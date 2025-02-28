@@ -66,6 +66,14 @@ public class MainFrame extends JFrame {
         mainPanel.repaint();
     }
 
+    public void showSalesHistoryPanel(Partner partner) {
+        JPanel historyPanel = new PartnerSalesHistoryPanel(this, partner);
+        mainPanel.removeAll();
+        mainPanel.add(historyPanel, BorderLayout.CENTER);
+        mainPanel.revalidate();
+        mainPanel.repaint();
+    }
+
     public static void main(String[] args) {
         // Установка системного внешнего вида
         try {

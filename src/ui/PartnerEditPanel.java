@@ -97,7 +97,7 @@ public class PartnerEditPanel extends JPanel {
 
         gbc.gridx = 1;
         gbc.weightx = 1.0;
-        ratingSlider = new JSlider(1, 5, Math.max(1, partner.getRating()));
+        ratingSlider = new JSlider(1, 10, Math.max(1, partner.getRating()));
         ratingSlider.setMajorTickSpacing(1);
         ratingSlider.setPaintTicks(true);
         ratingSlider.setPaintLabels(true);
@@ -179,6 +179,11 @@ public class PartnerEditPanel extends JPanel {
         saveButton.setForeground(Color.WHITE);
         saveButton.addActionListener(e -> savePartner());
 
+        JButton historyButton = new JButton("История продаж");
+        historyButton.setFont(AppStyles.REGULAR_FONT);
+        historyButton.addActionListener(e -> mainFrame.showSalesHistoryPanel(partner));
+
+        buttonPanel.add(historyButton);
         buttonPanel.add(cancelButton);
         buttonPanel.add(saveButton);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(
