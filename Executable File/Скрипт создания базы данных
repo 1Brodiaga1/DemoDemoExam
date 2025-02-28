@@ -1,0 +1,70 @@
+-- Создание таблицы partners
+CREATE TABLE partners (
+    id SERIAL PRIMARY KEY,
+    type_of_company VARCHAR(50) NOT NULL,
+    name_of_company VARCHAR(100) NOT NULL,
+    legal_address VARCHAR(200) NOT NULL,
+    tin VARCHAR(12) NOT NULL UNIQUE,
+    full_name VARCHAR(100) NOT NULL,
+    phone_number VARCHAR(10) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    logo VARCHAR(100),
+    rating INT CHECK (rating >= 1 AND rating <= 5)
+);
+
+-- Создание таблицы products
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    type_of_product VARCHAR(50) NOT NULL,
+    name_of_product VARCHAR(100) NOT NULL,
+    description VARCHAR(250),
+    image VARCHAR(100),
+    minimum_cost_for_a_partner INT NOT NULL,
+    package_size INT NOT NULL,
+    weight_without_packaging INT NOT NULL,
+    weight_with_packaging INT NOT NULL,
+    is_there_quality_certificate BOOLEAN NOT NULL,
+    number_of_standart INT,
+    date_of_manufacture DATE NOT NULL,
+    cost_price INT NOT NULL
+);
+
+-- Создание таблицы materials
+CREATE TABLE materials (
+    id SERIAL PRIMARY KEY,
+    type_of_material VARCHAR(50) NOT NULL,
+    name_of_material VARCHAR(100) NOT NULL,
+    quantity_in_the_package INT NOT NULL,
+    measure_unit VARCHAR(20) NOT NULL,
+    description VARCHAR(250),
+    image VARCHAR(100),
+    cost INT NOT NULL,
+    quantity_in_stock INT NOT NULL,
+    minimum_allowable_quantity INT NOT NULL
+);
+
+-- Создание таблицы materials_in_production
+CREATE TABLE materials_in_production (
+    id SERIAL PRIMARY KEY,
+    material_id INT NOT NULL,
+    product_id INT NOT NULL,
+    FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+);
+
+-- Создание таблицы implementation_history
+CREATE TABLE implementation_history (
+    id SERIAL PRIMARY KEY,
+    partner_id INT NOT NULL,
+    product_id INT NOT NULL,
+    date_of_implementation DATE NOT NULL,
+    quantity INT NOT NULL,
+    FOREIGN KEY (partner_id) REFERENCES partners(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+);
+
+-- Добавление индексов для ускорения поиска
+CREATE INDEX idx_partners_name ON partners(name_of_company);
+CREATE INDEX idx_products_name ON products(name_of_product);
+CREATE INDEX idx_materials_name ON materials(name_of_material);
+CREATE INDEX idx_implementation_history_date ON implementation_history(date_of_implementation);
